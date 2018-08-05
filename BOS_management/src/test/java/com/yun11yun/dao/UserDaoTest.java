@@ -24,6 +24,7 @@ public class UserDaoTest extends SpringTestCase {
     public void getAll() {
         List<User> list = userDao.getAll();
         assertNotNull(list);
+        assertTrue(list.size() > 0);
     }
 
     @Test

@@ -14,7 +14,6 @@
 
         <!--设置连接池的提供者-->
         <property name="connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
-
         <!--c3p0连接池配置-->
         <property name="c3p0.max_size">20</property>
         <property name="c3p0.min_size">5</property>

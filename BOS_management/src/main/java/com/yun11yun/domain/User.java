@@ -1,7 +1,5 @@
 package com.yun11yun.domain;
 
-import org.hibernate.annotations.GeneratorType;
-
 import javax.persistence.*;
 
 @Entity
@@ -13,12 +11,15 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
 
-    private String first_name;
+    @Column(name = "first_name")
+    private String firstname;
 
-    private String last_name;
+    @Column(name = "last_name")
+    private String lastname;
 
     private String email;
 
+    private String phone;
 
     public Integer getId() {
         return id;
@@ -28,20 +29,20 @@ public class User {
         this.id = id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail() {
@@ -50,5 +51,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
