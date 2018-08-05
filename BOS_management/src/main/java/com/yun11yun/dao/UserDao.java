@@ -14,7 +14,15 @@ public class UserDao {
     private HibernateTemplate hibernateTemplate;
 
     public List<User> getAll() {
-        return null;
+        List<User> list = hibernateTemplate.loadAll(User.class);
+        return list;
     }
 
+    public HibernateTemplate getHibernateTemplate() {
+        return hibernateTemplate;
+    }
+
+    public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
+        this.hibernateTemplate = hibernateTemplate;
+    }
 }

@@ -32,10 +32,6 @@
 
         <!--自动生成表-->
         <property name="hbm2ddl.auto">update</property>
-
-
-        <property name="hibernate.current_session_context_class">thread</property>
-
         <mapping class="com.yun11yun.domain.User"/>
     </session-factory>
 </hibernate-configuration>

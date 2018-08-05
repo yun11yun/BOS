@@ -1,25 +1,24 @@
 package com.yun11yun.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GeneratorType;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "t_users")
 public class User {
 
     @Id
-    @Column(name = "uid")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "user_id")
     private Integer id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    private String first_name;
 
-    @Column(name = "last_name")
-    private String lastName;
+    private String last_name;
 
     private String email;
+
 
     public Integer getId() {
         return id;
@@ -29,20 +28,20 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getEmail() {
