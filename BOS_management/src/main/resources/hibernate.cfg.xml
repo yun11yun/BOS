@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!--指定连接数据库驱动-->
+        <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="connection.url">jdbc:oracle:thin:@192.168.56.101:1521:artemis</property>
+        <property name="connection.username">c##wentao</property>
+        <property name="connection.password">ai91znqes</property>
+
+        <!--设置连接池的提供者-->
+        <property name="connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
+
+        <!--c3p0连接池配置-->
+        <property name="c3p0.max_size">20</property>
+        <property name="c3p0.min_size">5</property>
+        <property name="c3p0.timeout">120</property>
+        <property name="c3p0.idle_test_period">3000</property>
+
+        <!--设置自动提交事务-->
+        <property name="connection.autocommit">false</property>
+
+        <!--指定方言-->
+        <property name="dialect">org.hibernate.dialect.Oracle12cDialect</property>
+
+        <!--显示sql语句-->
+        <property name="show_sql">true</property>
+
+        <!--自动生成表-->
+        <property name="hbm2ddl.auto">update</property>
+
+
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <mapping class="com.yun11yun.domain.User"/>
+    </session-factory>
+</hibernate-configuration>

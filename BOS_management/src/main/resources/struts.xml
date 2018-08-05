@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+    <!--将Object的实例化交给Spring管理-->
+    <constant name="struts.objectFactory" value="spring"/>
+
+    <!--设置依赖注入方式-->
+    <constant name="struts.objectFactory.spring.autoWire" value="type"/>
+
+</struts>
