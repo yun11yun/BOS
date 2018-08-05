@@ -33,13 +33,13 @@
     <!--配置事务传播属性-->
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="get*" read-only="true"/>
-            <tx:method name="*"/>
+            <tx:method name="*" propagation="REQUIRED"/>
         </tx:attributes>
     </tx:advice>
 
     <aop:config>
-        <aop:pointcut id="userServiceOperation" expression="execution(* com.yun11yun.service.*.*())"/>
+        <aop:pointcut id="userServiceOperation" expression="execution(* com.yun11yun.service.*.*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="userServiceOperation"/>
+
     </aop:config>
 </beans>

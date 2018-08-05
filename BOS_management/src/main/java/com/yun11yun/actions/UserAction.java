@@ -23,6 +23,8 @@ public class UserAction extends ActionSupport {
     @Autowired
     private UserService userService;
 
+    private User user;
+
     private List<User> userList = new ArrayList <>();
 
     @Action(value = "all")
@@ -33,5 +35,13 @@ public class UserAction extends ActionSupport {
 
     public List <User> getUserList() {
         return userList;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

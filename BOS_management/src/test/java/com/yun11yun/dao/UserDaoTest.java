@@ -32,4 +32,10 @@ public class UserDaoTest extends SpringTestCase {
         assertNotNull(userDao);
         assertNotNull(userDao.getHibernateTemplate());
     }
+
+    @Test
+    public void testTheCountOfUserTable() {
+        int count = userDao.count();
+        assertTrue(count > 0);
+    }
 }

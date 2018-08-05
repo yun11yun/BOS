@@ -18,6 +18,15 @@ public class UserDao {
         return list;
     }
 
+    public void saveUser(User user) {
+        hibernateTemplate.save(user);
+    }
+
+    public int count() {
+        Long count = (Long)hibernateTemplate.find("select count(*) from User as user").listIterator().next();
+        return count.intValue();
+    }
+
     public HibernateTemplate getHibernateTemplate() {
         return hibernateTemplate;
     }
