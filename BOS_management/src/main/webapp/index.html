@@ -3,87 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui/themes/icon.css">
-    <script type="text/javascript" src="/js/jquery-easyui/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/jquery-easyui/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="/js/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
-</head>
+    <link rel="stylesheet" type="text/css" href="./js/jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery-easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 
-<body>
-<table id="dg" title="My Users" class="easyui-datagrid" style="width:550px;height:250px"
-       url="/user/all"
-       toolbar="#toolbar"
-       rownumbers="true" fitColumns="true" singleSelect="true">
-    <thead>
-    <tr>
-        <th field="firstname" width="50">First Name</th>
-        <th field="lastname" width="50">Last Name</th>
-        <th field="phone" width="50">Phone</th>
-        <th field="email" width="50">Email</th>
-    </tr>
-    </thead>
-</table>
-<div id="toolbar">
-    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">New User</a>
-    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit User</a>
-    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove User</a>
-</div>
+    <!-- zTree -->
+    <link rel="stylesheet" type="text/css" href="./js/zTree/css/zTreeStyle/zTreeStyle.css">
+    <script type="text/javascript" src="./js/zTree/js/jquery.ztree.all.js"></script>
 
-<div id="dlg" class="easyui-dialog" style="width:400px;height:280px;padding:10px 20px"
-     closed="true" buttons="#dlg-buttons">
-    <div class="ftitle">User Information</div>
-    <form id="fm" method="post">
-        <div class="fitem">
-            <label>First Name:</label>
-            <input name="firstname" class="easyui-validatebox" required="true">
-        </div>
-        <div class="fitem">
-            <label>Last Name:</label>
-            <input name="lastname" class="easyui-validatebox" required="true">
-        </div>
-        <div class="fitem">
-            <label>Phone:</label>
-            <input name="phone">
-        </div>
-        <div class="fitem">
-            <label>Email:</label>
-            <input name="email" class="easyui-validatebox" validType="email">
-        </div>
-    </form>
-</div>
-<div id="dlg-buttons">
-    <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">Save</a>
-    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel"
-       onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
-</div>
-<script>
-    function newUser(){
-        $('#dlg').dialog('open').dialog('setTitle','New User');
-        $('#fm').form('clear');
-        url = '/user/save';
-    }
-
-    function saveUser() {
-        $('#fm').form('submit',{
-            url: url,
-            onSubmit: function(){
-                return $(this).form('validate');
-            },
-            success: function(result){
-                var result = eval('('+result+')');
-                if (result.errorMsg){
-                    $.messager.show({
-                        title: 'Error',
-                        msg: result.errorMsg
-                    });
-                } else {
-                    $('#dlg').dialog('close');		// close the dialog
-                    $('#dg').datagrid('reload');	// reload the user data
+    <script type="text/javascript">
+        $(function () {
+            var settings = {
+                data : {
+                    simpleData: {
+                        enable : true
+                    }
+                },
+                callback: {
+                    onClick: treeNodeClick
                 }
             }
-        });
-    }
-</script>
+
+            function treeNodeClick(event, treeId, treeNode, clickFlag) {
+                // 获取tabs的jQuery对象
+                var tabs = $('#basetabs');
+                // 判断node是否有page
+                if (treeNode.page) {
+                    // 判断node是否已经在tabs打开
+                    //      如果存在则选择该node
+                    //      不存在则创建该node对应的内容
+                    if (tabs.tabs('exists', treeNode.name)) {
+                        tabs.tabs('select', treeNode.name);
+                    } else {
+                        var content = '<div style="width: 100%; height: 100%; overflow: hidden;">' 
+                            + '<iframe src="' 
+                            + treeNode.page 
+                            + '" style="width: 100%; height: 100%; border: 0;"></iframe></div>';
+
+                        tabs.tabs('add', {
+                            title: treeNode.name,
+                            content: content,
+                            closable: true
+                        })
+                    }
+                } 
+            }
+
+            var zNodes = [
+                {id : 1, pId : 0, name: "父节点一"},
+                {id : 2, pId : 0, name: "父节点二"},
+                {id : 11, pId : 1, name: "子节点一", page: "www.baidu.com"},
+                {id : 12, pId : 1, name: "子节点二", page: "www.sina.com"},
+                {id : 21, pId : 2, name: "子节点一", page: "www.178.com"}
+            ];
+
+            // 初始化zTree
+            $.fn.zTree.init($("#basemenu"), settings, zNodes);
+
+            // 对选项卡注册右键菜单
+            $('#basetabs').tabs({
+                onContextMenu: function (e, title, index) {
+                    // 阻止默认菜单xianshi
+                    e.preventDefault();
+
+                    // 显示自定义菜单
+                    $('#right-menu').menu('show', {
+                        left: e.pageX,
+                        right: e.pageY
+                    });
+                }
+            });
+
+            // 注册关闭当前窗口menu的点击事件
+            $('#menu-closecurrent').click(function () {
+                console.log('close current!');
+            });
+
+            // 注册关闭其它窗口menu的点击事件
+            $('#menu-closeother').click(function () {
+                console.log('close other!');
+            });
+
+            // 注册关闭所有窗口menu的点击事件
+            $('#menu-closeall').click(function () {
+                console.log('close all!')
+            })
+        })
+    </script>
+</head>
+
+<body class="easyui-layout">
+
+    <div data-options="region:'north'" style="height:50px"></div>
+    <div data-options="region:'south',split:true" style="height:50px;"></div>
+
+    <div data-options="region:'east',split:true" title="East" style="width:20%;">
+
+    </div>
+
+    <div data-options="region:'west',split:true" title="West" style="width:20%;">
+        <!-- 折叠panel start -->
+        <div class="easyui-accordion" data-options="fit:true">
+            <div data-options="title:'基础菜单'">
+                <ul id="basemenu" class="ztree"></ul>
+            </div>
+            <div data-options="title:'系统菜单'">面板二</div>
+        </div>
+        <!-- 折叠panel end -->
+    </div>
+
+    <div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
+        <!-- 选项卡 start -->
+        <div id="basetabs" data-options="fit:true" class="easyui-tabs"></div>
+        <!-- 选项卡 end -->
+    </div>
+
+    <!-- 右键菜单 start -->
+    <div id="right-menu" class="easyui-menu">
+        <div id="menu-closecurrent">关闭当前窗口</div>
+        <div id="menu-closeother">关闭其他窗口</div>
+        <div class="menu-sep"></div>
+        <div id="menu-closeall" data-options="iconCls: 'icon-cancel'">关闭所有窗口</div>
+    </div>
+    <!-- 右键菜单 end -->
 </body>
 </html>
