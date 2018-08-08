@@ -1,0 +1,4 @@
+[
+  { "id":"11", "pId":"0", "name":"基础数据"},
+  { "id":"112", "pId":"11", "name":"收派标准",  "page":"pages/base/standard.html"}
+]

@@ -15,6 +15,7 @@
 
     <script type="text/javascript">
         $(function () {
+
             var settings = {
                 data : {
                     simpleData: {
@@ -25,6 +26,11 @@
                     onClick: treeNodeClick
                 }
             }
+
+            // 基本功能加载
+            $.post("./data/menu.json", function (data) {
+                $.fn.zTree.init($("#basemenu"), settings, data);
+            })
 
             function treeNodeClick(event, treeId, treeNode, clickFlag) {
                 // 获取tabs的jQuery对象
@@ -45,28 +51,29 @@
                         tabs.tabs('add', {
                             title: treeNode.name,
                             content: content,
-                            closable: true
+                            closable: true,
+                            tools: [{
+                                iconCls: 'icon-reload',
+                                handler: function () {
+                                    // 刷新当前的页面
+                                    var tab = $('#basetabs').tabs('getTab', treeNode.name);
+                                    $("iframe[src='"+treeNode.page+"']").get(0).contentWindow.location.reload(true);
+                                }
+                            }]
                         })
                     }
                 } 
             }
 
-            var zNodes = [
-                {id : 1, pId : 0, name: "父节点一"},
-                {id : 2, pId : 0, name: "父节点二"},
-                {id : 11, pId : 1, name: "子节点一", page: "www.baidu.com"},
-                {id : 12, pId : 1, name: "子节点二", page: "www.sina.com"},
-                {id : 21, pId : 2, name: "子节点一", page: "www.178.com"}
-            ];
-
-            // 初始化zTree
-            $.fn.zTree.init($("#basemenu"), settings, zNodes);
+            var currentRightTitle
 
             // 对选项卡注册右键菜单
             $('#basetabs').tabs({
                 onContextMenu: function (e, title, index) {
                     // 阻止默认菜单xianshi
                     e.preventDefault();
+
+                    currentRightTitle = title;
 
                     // 显示自定义菜单
                     $('#right-menu').menu('show', {
@@ -76,19 +83,18 @@
                 }
             });
 
-            // 注册关闭当前窗口menu的点击事件
-            $('#menu-closecurrent').click(function () {
-                console.log('close current!');
-            });
+            // 标签卡项的右键菜单点击事件
+            $('#right-menu').menu({
+                onClick: function (item) {
+                    var tabs = $('#basetabs');
+                    if (item.name === 'Close') {
+                        tabs.tabs('close', currentRightTitle);
+                    } else if (item.name === 'CloseOthers') {
 
-            // 注册关闭其它窗口menu的点击事件
-            $('#menu-closeother').click(function () {
-                console.log('close other!');
-            });
+                    } else if (item.name === 'CloseAll') {
 
-            // 注册关闭所有窗口menu的点击事件
-            $('#menu-closeall').click(function () {
-                console.log('close all!')
+                    }
+                }
             })
         })
     </script>
@@ -122,10 +128,10 @@
 
     <!-- 右键菜单 start -->
     <div id="right-menu" class="easyui-menu">
-        <div id="menu-closecurrent">关闭当前窗口</div>
-        <div id="menu-closeother">关闭其他窗口</div>
+        <div data-options="name:'Close'">关闭当前窗口</div>
+        <div data-options="name:'CloseOthers'">关闭其他窗口</div>
         <div class="menu-sep"></div>
-        <div id="menu-closeall" data-options="iconCls: 'icon-cancel'">关闭所有窗口</div>
+        <div data-options="iconCls: 'icon-cancel',name:'CloseAll'">关闭所有窗口</div>
     </div>
     <!-- 右键菜单 end -->
 </body>
