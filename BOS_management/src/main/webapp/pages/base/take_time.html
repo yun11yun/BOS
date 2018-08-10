@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../js/jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="../../js/jquery-easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            // 在数据加载时显示页面，避免页面刷新
+            $("body").css({visibility:"visible"});
+
+            $('#grid').datagrid({
+                inconCls: 'icon-forward',
+                fit: true,
+                border: false,
+                rownumbers: true,
+                striped: true,
+                pageList: [30,50,100],
+                pagination: true,
+                toolbar: toolbars,
+                url: '../../data/take_time.json',
+                idField: 'id',
+                columns: columns
+            });
+        });
+
+        // 工具栏
+        var toolbars = [
+            {
+                id: 'button-add',
+                text: '增加',
+                iconCls: 'icon-add',
+                handler: function () {
+
+                }
+            }, {
+                id: 'button-edit',
+                text: '修改',
+                iconCls: 'icon-edit',
+                handler: function () {
+
+                }
+            }, {
+                id: 'button-delete',
+                text: '删除',
+                iconCls: 'icon-cancel',
+                handler: function () {
+
+                }
+            }
+        ]
+
+        // 定义列
+        var columns = [ [
+            {field: 'id', checkbox: true},
+            {field: 'name', title: '时间名称', width: 100, align: 'center'},
+            {field: 'normalWorkTime', title: '平时上班时间', width: 100, align: 'center'},
+            {field: 'normalDutyTime', title: '平时休息时间', width: 100, align: 'center'},
+            {field: 'satWorkTime', title: '周六上班时间', width: 100, align: 'center'},
+            {field: 'satDutyTime', title: '周六休息时间', width: 100, align: 'center'},
+            {field: 'sunWorkTime', title: '周日上班时间', width: 100, align: 'center'},
+            {field: 'sunDutyTime', title: '周日休息时间', width: 100, align: 'center'},
+            {field: 'status', title: '状态', width: 100, align: 'center'},
+            {field: 'company', title: '所属单位', width: 100, align: 'center'},
+            {field: 'operator', title: '操作人', width: 100, align: 'center'},
+            {field: 'operatingTime', title: '操作时间', width: 100, align: 'center'},
+            {field: 'operatingCompany', title: '操作单位', width: 100, align: 'center'},
+        ] ]
+
+    </script>
+</head>
+    <body class="easyui-layout" style="visibility: hidden">
+        <div region="center" border="false">
+            <table id="grid"></table>
+        </div>
+    </body>
+</html>

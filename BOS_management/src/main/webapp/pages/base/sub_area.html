@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../js/jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="../../js/jquery-easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+
+        //工具栏
+        var toolbar = [ {
+            id : 'button-search',
+            text : '查询',
+            iconCls : 'icon-search',
+            handler : function () {
+
+            }
+        }, {
+            id : 'button-add',
+            text : '增加',
+            iconCls : 'icon-add',
+            handler : function () {
+
+            }
+        }, {
+            id : 'button-edit',
+            text : '修改',
+            iconCls : 'icon-edit',
+            handler : function () {
+
+            }
+        },{
+            id : 'button-delete',
+            text : '删除',
+            iconCls : 'icon-cancel',
+            handler : function () {
+
+            }
+        },{
+            id : 'button-import',
+            text : '导入',
+            iconCls : 'icon-redo',
+            handler : function () {
+
+            }
+        },{
+            id : 'button-export',
+            text : '导出',
+            iconCls : 'icon-undo',
+            handler : function () {
+
+            }
+        }];
+        // 定义列
+        var columns = [ [ {
+            field : 'id',
+            checkbox : true,
+        }, {
+            field : 'showid',
+            title : '分拣编号',
+            width : 120,
+            align : 'center',
+            formatter : function(data,row ,index){
+                return row.id;
+            }
+        },{
+            field : 'area.province',
+            title : '省',
+            width : 120,
+            align : 'center',
+            formatter : function(data,row ,index){
+                if(row.area != null ){
+                    return row.area.province;
+                }
+                return "" ;
+            }
+        }, {
+            field : 'area.city',
+            title : '市',
+            width : 120,
+            align : 'center',
+            formatter : function(data,row ,index){
+                if(row.area != null ){
+                    return row.area.city;
+                }
+                return "" ;
+            }
+        }, {
+            field : 'area.district',
+            title : '区',
+            width : 120,
+            align : 'center',
+            formatter : function(data,row ,index){
+                if(row.area != null ){
+                    return row.area.district;
+                }
+                return "" ;
+            }
+        }, {
+            field : 'keyWords',
+            title : '关键字',
+            width : 120,
+            align : 'center'
+        }, {
+            field : 'startnum',
+            title : '起始号',
+            width : 100,
+            align : 'center'
+        }, {
+            field : 'endnum',
+            title : '终止号',
+            width : 100,
+            align : 'center'
+        } , {
+            field : 'single',
+            title : '单双号',
+            width : 100,
+            align : 'center'
+        } , {
+            field : 'assistKeyWords',
+            title : '辅助关键字',
+            width : 100,
+            align : 'center'
+        } ] ];
+
+        $(function () {
+            $('body').css({visibility: 'visible'});
+
+            // 分区管理数据表格
+            $('#grid').datagrid( {
+                iconCls : 'icon-forward',
+                fit : true,
+                border : true,
+                rownumbers : true,
+                striped : true,
+                pageList: [30,50,100],
+                pagination : true,
+                toolbar : toolbar,
+                url : "../../data/sub_area.json",
+                idField : 'id',
+                columns : columns,
+                onDblClickRow : doDblClickRow
+            });
+        });
+
+        function doDblClickRow(){
+            alert("双击表格数据...");
+        }
+
+    </script>
+</head>
+    <body class="easyui-layout" style="visibility: hidden">
+        <div region="center" border="false">
+            <table id="grid"></table>
+        </div>
+    </body>
+</html>

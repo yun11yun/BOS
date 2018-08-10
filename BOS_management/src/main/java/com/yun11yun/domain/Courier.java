@@ -1,5 +1,8 @@
 package com.yun11yun.domain;
 
+
+import org.apache.struts2.json.annotations.JSON;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,7 +44,8 @@ public class Courier {
     @JoinColumn(name = "c_taketime_id")
     private TakeTime takeTime;
 
-    @ManyToMany(mappedBy = "couriers")
+    // 配置
+    @ManyToMany(mappedBy = "couriers", fetch = FetchType.EAGER)
     private Set<FixedArea> fixedAreas = new HashSet <>();
 
     public Integer getId() {
@@ -148,11 +152,21 @@ public class Courier {
         this.takeTime = takeTime;
     }
 
+
     public Set <FixedArea> getFixedAreas() {
         return fixedAreas;
     }
 
+    @JSON(serialize = false)
     public void setFixedAreas(Set <FixedArea> fixedAreas) {
         this.fixedAreas = fixedAreas;
+    }
+
+    public String getDeltagStr() {
+        if (this.deltag == null) {
+            return "正常使用";
+        } else {
+            return "已经作废";
+        }
     }
 }

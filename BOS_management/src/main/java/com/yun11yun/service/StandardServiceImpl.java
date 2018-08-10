@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class StandardServiceImpl implements StandardService {
@@ -24,5 +26,10 @@ public class StandardServiceImpl implements StandardService {
     @Override
     public Page<Standard> findByPage(int page, int rows) {
         return standardRepository.findAll(new PageRequest(page - 1, rows));
+    }
+
+    @Override
+    public List<Standard> findAll() {
+        return standardRepository.findAll();
     }
 }

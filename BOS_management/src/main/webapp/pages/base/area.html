@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../js/jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="../../js/jquery-easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        
+        function doAdd() {
+            $('#addWindow').window('open');
+        }
+
+        function doEdit() {
+            // 获取选中的rows
+            var rows = $('#grid').datagrid('getSelections');
+            // 判断选中条件
+            if (rows.length !== 1) {
+                // 选中多行或者没有选择，提示用户不能这样操作
+                $.messager.alert('提示信息', '修改数据时，只能选中一行', 'warning');
+            } else {
+                // 将选中的行的数据填入window，并展示
+                var row = rows[0];
+                $('#addWindow').window('open');
+            }
+        }
+        
+        function doDelete() {
+            
+        }
+        
+        var toolbars = [
+            {
+                id: 'button-add',
+                text: '增加',
+                iconCls: 'icon-add',
+                handler: doAdd
+            }, {
+                id: 'button-edit',
+                text: '修改',
+                iconCls: 'icon-edit',
+                handler: doEdit
+            }, {
+                id: 'button-delete',
+                text: '增加',
+                iconCls: 'icon-cancel',
+                handler: doDelete
+            }, {
+                id : 'button-import',
+                text : '导入',
+                iconCls : 'icon-redo'
+            }
+        ];
+
+        // 定义列
+        var columns = [ [
+            {
+                field: 'id',
+                checkbox: true
+            }, {
+                field: 'province',
+                title: '省',
+                width: 100,
+                align: 'center'
+            }, {
+                field: 'city',
+                title: '城市',
+                width: 100,
+                align: 'center'
+            }, {
+                field : 'district',
+                title : '区',
+                width : 120,
+                align : 'center'
+            }, {
+                field : 'postcode',
+                title : '邮编',
+                width : 120,
+                align : 'center'
+            }, {
+                field : 'shortcode',
+                title : '简码',
+                width : 120,
+                align : 'center'
+            }, {
+                field : 'citycode',
+                title : '城市编码',
+                width : 200,
+                align : 'center'
+            }
+        ] ];
+
+        $(function () {
+            $('body').css({visibility: 'visible'});
+
+            // 区域管理数据表格
+            $('#grid').datagrid( {
+                iconCls : 'icon-forward',
+                fit : true,
+                border : false,
+                rownumbers : true,
+                striped : true,
+                pageList: [30,50,100],
+                pagination : true,
+                toolbar : toolbars,
+                url : "../../data/area.json",
+                idField : 'id',
+                columns : columns,
+                onDblClickRow : doDblClickRow
+            });
+        });
+
+        function doDblClickRow(){
+            alert("双击表格数据...");
+        }
+    </script>
+</head>
+    <body class="easyui-layout" style="visibility: hidden">
+        <div region="center" border="false">
+            <table id="grid"></table>
+        </div>
+
+        <!--区域添加-->
+        <div class="easyui-window" title="区域添加修改" id="addWindow"
+             collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
+            <div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
+                <div class="datagrid-toolbar">
+                    <a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
+                </div>
+            </div>
+            <div region="center" style="overflow:auto;padding:5px;" border="false">
+                <form>
+                    <table class="table-edit" width="80%" align="center">
+                        <tr class="title">
+                            <td colspan="2">区域信息</td>
+                        </tr>
+                        <tr>
+                            <td>编码</td>
+                            <td>
+                                <input type="text" name="id" class="easyui-validatebox" required="true">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>省</td>
+                            <td>
+                                <input type="text" name="province" class="easyui-validatebox" required="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>市</td>
+                            <td>
+                                <input type="text" name="city" class="easyui-validatebox" required="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>区</td>
+                            <td>
+                                <input type="text" name="district" class="easyui-validatebox" required="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>邮编</td>
+                            <td>
+                                <input type="text" name="postcode" class="easyui-validatebox" required="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>简码</td>
+                            <td>
+                                <input type="text" name="shortcode" class="easyui-validatebox" required="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>城市编码</td>
+                            <td>
+                                <input type="text" name="citycode" class="easyui-validatebox" required="true" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+        <!--查询区域-->
+        <div class="easyui-window" title="查询区域窗口" closed="true" id="searchWindow"
+             collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
+
+        </div>
+    </body>
+</html>

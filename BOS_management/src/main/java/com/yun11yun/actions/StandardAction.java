@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @ParentPackage("json-default")
@@ -79,6 +80,17 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
         // 4. 将数据压栈
         ActionContext.getContext().getValueStack().push(result);
 
+        return SUCCESS;
+    }
+
+    @Action(value = "standard_findAll",
+            results = {
+                @Result(name = "success", type = "json")
+            }
+    )
+    public String findAll() {
+        List<Standard> list = this.standardService.findAll();
+        ActionContext.getContext().getValueStack().push(list);
         return SUCCESS;
     }
 
