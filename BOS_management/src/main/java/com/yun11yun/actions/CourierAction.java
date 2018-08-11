@@ -1,8 +1,6 @@
 package com.yun11yun.actions;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
+import com.yun11yun.actions.common.BaseAction;
 import com.yun11yun.domain.Courier;
 import com.yun11yun.service.CourierService;
 import org.apache.struts2.convention.annotation.*;
@@ -11,36 +9,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @ParentPackage("json-default")
 @Namespace("/")
 @Actions
 @Controller
 @Scope("prototype")
-public class CourierAction extends ActionSupport implements ModelDriven<Courier> {
-
-    private Courier courier = new Courier();
-
-    private int page;
-    private int rows;
+public class CourierAction extends BaseAction<Courier> {
 
     @Autowired
     private CourierService courierService;
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
-    @Override
-    public Courier getModel() {
-        return courier;
-    }
 
     @Action(value = "courier_save",
             results = {
@@ -50,7 +27,7 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
     })
     public String save() {
         System.out.println("save");
-        this.courierService.save(this.courier);
+        this.courierService.save(this.model);
         return SUCCESS;
     }
 
@@ -63,13 +40,9 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
     public String queryPage() {
         // 1. 获取查询参数
         // 2. 查询数据
-        Page<Courier> page = this.courierService.queryPage(this.courier, this.page, this.rows);
-        // 3. 封装成需要的json格式
-        Map<String, Object> map = new HashMap <>();
-        map.put("total", page.getTotalElements());
-        map.put("rows", page.getContent());
-        // 4. 压入值栈
-        ActionContext.getContext().getValueStack().push(map);
+        Page<Courier> page = this.courierService.queryPage(this.model, this.page, this.rows);
+        // 3. 压入值栈
+        pushDataToValueStack(page);
         return SUCCESS;
     }
 

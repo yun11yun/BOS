@@ -25,11 +25,18 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     public void save(Courier courier) {
+        if (courier == null) {
+            return;
+        }
         this.courierRepository.save(courier);
     }
 
     @Override
     public Page<Courier> queryPage(Courier courier, int page, int rows) {
+        if (page < 1 && rows < 0) {
+            return null;
+        }
+
         // 封装Pageable对象
         Pageable pageable = new PageRequest(page - 1, rows);
 
@@ -76,7 +83,7 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     public void delBatch(String[] ids) {
-        if (ids.length == 0) {
+        if (ids == null || ids.length == 0) {
             return;
         }
         for (String idStr : ids) {

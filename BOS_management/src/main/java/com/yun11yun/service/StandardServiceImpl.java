@@ -20,11 +20,17 @@ public class StandardServiceImpl implements StandardService {
 
     @Override
     public void save(Standard standard) {
+        if (standard == null) {
+            return;
+        }
         standardRepository.save(standard);
     }
 
     @Override
     public Page<Standard> findByPage(int page, int rows) {
+        if (page < 1 || rows < 0) {
+            return null;
+        }
         return standardRepository.findAll(new PageRequest(page - 1, rows));
     }
 
