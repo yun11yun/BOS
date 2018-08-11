@@ -1,5 +1,7 @@
 package com.yun11yun.domain;
 
+import org.apache.struts2.json.annotations.JSON;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +29,7 @@ public class Area {
     @Column(name = "c_shortcode")
     private String shortcode; // 简码
 
-    @OneToMany(mappedBy = "area")
+    @OneToMany(mappedBy = "area", fetch = FetchType.EAGER)
     private Set<SubArea> subareas = new HashSet <>();
 
     public String getId() {
@@ -90,6 +92,7 @@ public class Area {
         return subareas;
     }
 
+    @JSON(serialize = false)
     public void setSubareas(Set <SubArea> subareas) {
         this.subareas = subareas;
     }

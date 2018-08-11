@@ -19,9 +19,26 @@
         <hibernate.version>5.3.0.CR2</hibernate.version>
         <c3p0.version>0.9.1.2</c3p0.version>
         <slf4j.version>1.7.25</slf4j.version>
+        <poi.verison>3.17</poi.verison>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.verison}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.verison}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>${poi.verison}</version>
+        </dependency>
 
         <!--Tomcat依赖-->
         <dependency>

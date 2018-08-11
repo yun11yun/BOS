@@ -1,8 +1,6 @@
 package com.yun11yun.actions;
 
 import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
 import com.yun11yun.actions.common.BaseAction;
 import com.yun11yun.domain.Standard;
 import com.yun11yun.service.StandardService;
@@ -12,9 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @ParentPackage("json-default")
 @Namespace("/")
@@ -50,8 +46,6 @@ public class StandardAction extends BaseAction<Standard> {
     )
     public String queryPage() {
         // 1. 接受page和rows
-        System.out.println(rows);
-        System.out.println(page);
         
         // 2. 查询数据
         Page<Standard> page = standardService.findByPage(this.page, this.rows);

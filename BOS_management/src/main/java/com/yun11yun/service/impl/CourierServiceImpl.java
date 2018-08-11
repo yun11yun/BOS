@@ -1,8 +1,9 @@
-package com.yun11yun.service;
+package com.yun11yun.service.impl;
 
 import com.yun11yun.dao.CourierRepository;
 import com.yun11yun.domain.Courier;
 import com.yun11yun.domain.Standard;
+import com.yun11yun.service.CourierService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
